@@ -1,8 +1,12 @@
 # Rip top lists from IMDB - only URLS
 # Seq of which years are to be ripped.
 # Based on income
-Top.Rip <- function(Year=2014, Increment=5, Amount=10, Filename="top_rip") 
+
+Top.Rip <- function(Year=2014, Increment=5, Amount=10, Filename="top_rip")
 {
+
+require(XML)       
+        
       Increment <- -abs(Increment)
 The.Seq <- seq(Year, by = Increment, length.out = Amount)
 Rip.links=list()

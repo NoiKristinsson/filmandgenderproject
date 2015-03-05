@@ -25,8 +25,6 @@ URL <- i
 shortURL <- paste0("tt", as.numeric(gsub("[^\\d]+", "", URL, perl=TRUE)))
 tmdbURL <- paste0("https://www.themoviedb.org/search?query=", shortURL)
 
-print("Test 1")
-
 # tmdb doest not contain xml information and therefore an extra step had to be taken
 fixedURL <- getURL(tmdbURL)
 parsed.html <- htmlParse(fixedURL)
@@ -86,8 +84,6 @@ if (nrow(Camera)==0) {
 
         colnames(Camera) <- c("Name", "Job")
 
-print("test 2")
-
 #Finally the Actors
 Act.Person <- list(xpathSApply(parsed.html, "//table[@class='cast']//td[@class='person']", xmlValue))
 Act.Role <- list(rep("Actor", sapply(Act.Person, NROW)))
@@ -105,8 +101,6 @@ Actors <- Actors[1:5,1:2]
 
 #here I bind it all together
 #First I bind the jobs and the names
-
-print("test2.5")
 
 Final <- rbind(Directors, Producers, Writers, Camera, Actors)
 
@@ -126,12 +120,6 @@ Final.list <- rbind(Final.list, Bound)
 
 #Flatten the list
 Final.list <- data.frame(lapply(Final.list, as.character), stringsAsFactors=FALSE)
-
-print("test 3")
-
-#Creating the location of the save files
-
-print("vvv Here I write the file vvv")
 
 }
 
