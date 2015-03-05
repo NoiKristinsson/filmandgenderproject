@@ -1,17 +1,18 @@
 Rip_tmdb <- function(File, Column.name)
         {
-        
+
 require(XML)
 require(RCurl)
         
 #Prepare the data
         Rip.list <- read.csv(File)
-        Mod.Rip.list <- as.data.frame(Rip.list[,c(Column.name)])
-        colnames(Mod.Rip.list) <- c("Url")
+        Mod.Rip.list <- as.list(Rip.list[,c(Column.name)])
+        Final.list <- data.frame()
+       
 
 #This is for the progress bar
 t <- 1
-pb   <- txtProgressBar(1, 500, style=3)
+pb   <- txtProgressBar(1, 100, style=3)
 
 #Here the magic begins.
 for (i in Mod.Rip.list) {
@@ -22,7 +23,7 @@ for (i in Mod.Rip.list) {
         
 #The scraping        
 URL <- i
-shortURL <- paste0("tt", as.numeric(gsub("[^\\d]+", "", URL, perl=TRUE)))
+shortURL <- paste0("tt", as.character(gsub("[^0-9]", "", URL,)))
 tmdbURL <- paste0("https://www.themoviedb.org/search?query=", shortURL)
 
 # tmdb doest not contain xml information and therefore an extra step had to be taken
@@ -106,22 +107,29 @@ Final <- rbind(Directors, Producers, Writers, Camera, Actors)
 
 #Than add it to Title of Movie and Year
 Film.list <- as.data.frame(rep(Film, nrow(Final)))
-colnames(Film.list) <- c("Title")
+                colnames(Film.list) <- c("Title")
+              
+
+
 
 Year.list <- as.list(rep(Year, nrow(Final)))
 Film.list$Year <- Year.list
 
 Bound <- cbind(Film.list, Final)
 
-Final.list <- data.frame()
 
-Final.list <- rbind(Final.list, Bound)
+Final.list <- rbind.data.frame(Final.list, Bound)
 
+## For some reason there is an error in the code I don't understand where many elements are not removed when the loop repeats
+## my only idea is to RM all data before the loop
+
+Film.list <- data.frame()
+Film <- data.frame()
 
 #Flatten the list
 Final.list <- data.frame(lapply(Final.list, as.character), stringsAsFactors=FALSE)
-
 }
 
 write.table(Final.list, "Final_list.csv", sep=",", row.names = FALSE)
+
 }
