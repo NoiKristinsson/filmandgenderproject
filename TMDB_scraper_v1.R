@@ -132,7 +132,7 @@ Rip_tmdb <- function(File, Column.name)
                         ## my only idea is to RM all data before the loop
                         
                         
-                        print(Film)
+                        
                         #Flatten the list
                         Final.list <- data.frame(lapply(Final.list, as.character), stringsAsFactors=FALSE)
                         
