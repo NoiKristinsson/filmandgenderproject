@@ -47,7 +47,7 @@ Rip_tmdb <- function(File, Column.name)
                 { 
                         
                         #Year of Film
-                        Year <- as.numeric(gsub("[^0-9]", "", xpathSApply(parsed.html, "//div[@class='title']", xmlValue)))
+                        Year <- as.numeric(gsub("[^0-9]", "", xpathSApply(parsed.html, "//h3[@id='year']", xmlValue)))
                         
                         #Producers scraped, first names, than job title than combined in a data.frame
                         Prod.Person <- list(xpathSApply(parsed.html, "//table[@id='Production']//td[@class='person']", xmlValue))
